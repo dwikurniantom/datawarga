@@ -1,4 +1,4 @@
-# datawarga
+# Datawarga
 This project is created originaly by 
 Dwi Kurnianto Mulyadien
 Feel free to use it
