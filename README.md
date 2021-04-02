@@ -1,4 +1,10 @@
 # datawarga
+This project is created originaly by 
+Dwi Kurnianto Mulyadien
+Feel free to use it
+I'ts already using tailwind for the css framework
+And also this project is vue router ready
+Vanila with minimal configuration
 
 ## Project setup
 ```
