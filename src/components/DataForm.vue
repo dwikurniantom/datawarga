@@ -1,5 +1,5 @@
 <template>
-	<div class="max-w-4xl mx-auto">
+	<div class="max-w-4xl mx-auto pb-6">
 		<form id="form" class="bg-white shadow-lg rounded-lg m-6 p-6">
 			<h1 class="block text-gray-700 font-bold mb-2 text-xl text-center">Form pendataan warga</h1>
 			<div class="mb-4">
@@ -66,12 +66,16 @@
 					Alasan membutuhkan bantuan
 				</label>
 				<select class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300">
-					<option>Year</option>
+					<option selected="true" disabled>Pilih salah satu</option>
+					<option>Kehilangan pekerjaan</option>
+					<option>Kepala keluarga terdampak atau korban Covid</option>
+					<option>Tergolong fakir/miskin semenjak sebelum Covid,</option>
+					<option>Lainnya</option>
 				</select>
 			</div>
 			<div class="flex items-center justify-between">
-				<button id="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-					<i class="fab fa-whatsapp"></i> Enviar a WhatsApp
+				<button id="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+					Simpan data
 				</button>
 			</div>
 		</form>
@@ -81,7 +85,6 @@
 
 <script>
 export default {
-	name: "HelloWorld",
 	props: {
 		msg: String,
 	},
