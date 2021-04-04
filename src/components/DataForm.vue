@@ -1,6 +1,6 @@
 <template>
-	<div class="max-w-4xl mx-auto pb-6">
-		<form id="form" class="bg-white shadow-lg rounded-lg m-6 p-6">
+	<div class="max-w-4xl mx-auto">
+		<form id="form" class="bg-white shadow-lg xl:rounded-lg lg:rounded-lg md:rounded-lg sm:rounded-none p-6">
 			<h1 class="block text-gray-700 font-bold mb-2 text-xl text-center">Form pendataan warga</h1>
 			<div class="mb-4">
 				<label class="block text-gray-700 text-sm font-bold mb-2" for="nama">
@@ -49,17 +49,18 @@
 				</div>
 			</div>
 			<div class="mb-4">
-				<div class="grid grid-cols-2 gap-x-4">
-					<div class="w-full">
+				<div class="lg:flex lg:max-w-2xl">
+					<div class="lg:flex-shrink-0 ">
 						<label class="block text-gray-700 text-sm font-bold mb-2">
 							Umur
 						</label>
 						<input class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300 mr-6" name="umur" id="umur" type="number" v-model="$v.umur.$model" placeholder="Umur peserta hanya diperbolehkan 25 tahun keatas">
 						<div v-if='$v.umur.$dirty'>
 							<p class="mt-2 text-sm text-red-600" v-if="!$v.umur.required">Umur wajib di isi</p>
+							<p class="mt-2 text-sm text-red-600" v-if="!$v.umur.minValue">Umur hanya diperbolehkan 25 tahun keatas</p>
 						</div>
 					</div>
-					<div class="w-full">
+					<div class="lg:pl-6 xl:mt-0 lg:mt-0 md:mt-0 sm:mt-6 mt-6">
 						<label class="block text-gray-700 text-sm font-bold mb-2">
 							Jenis Kelamin
 						</label>
@@ -145,9 +146,10 @@
 				</label>
 			</div>
 			<div class="flex items-center justify-between">
-				<button id="button" class="transform hover:scale-110 disabled:opacity-50 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" :disabled='!buttonState' @click="onSubmit">
+				<button v-if="!loading_state" id="button" class="transform hover:scale-110 disabled:opacity-50 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" :disabled='!buttonState' @click="onSubmit">
 					Simpan data
 				</button>
+				<sync-loader v-else :loading="loading" :color="color" :size="size"></sync-loader>
 			</div>
 		</form>
 	</div>
@@ -155,10 +157,19 @@
 </template>
 
 <script>
-import { required, minLength, maxLength } from "vuelidate/lib/validators";
+import {
+	required,
+	minLength,
+	maxLength,
+	minValue,
+} from "vuelidate/lib/validators";
+import SyncLoader from "vue-spinner/src/SyncLoader.vue";
 export default {
 	props: {
 		msg: String,
+	},
+	components: {
+		SyncLoader: SyncLoader,
 	},
 	data() {
 		return {
@@ -169,7 +180,7 @@ export default {
 			ktp_capture: [],
 			kk_capture: [],
 			umur: "",
-			jenis_kelamin: "",
+			jenis_kelamin: "Laki-laki",
 			alamat: "",
 			rt: "",
 			rw: "",
@@ -177,11 +188,12 @@ export default {
 			penghasilan_setelah: "",
 			alasan: "",
 			verifikasi: false,
+			loading_state: false,
+			loader_color: "#10B981",
 		};
 	},
 	computed: {
 		buttonState() {
-			console.log(this.verifikasi && !this.$v.$invalid);
 			return this.verifikasi && !this.$v.$invalid;
 		},
 	},
@@ -195,6 +207,8 @@ export default {
 		onSubmit(e) {
 			e.preventDefault();
 			this.$v.$touch();
+			const root = this;
+			this.loading_state = true;
 			var delayInMilliseconds = 1500;
 			if (!this.$v.$invalid) {
 				let request = {
@@ -213,6 +227,26 @@ export default {
 					alasan: this.alasan,
 				};
 				setTimeout(function () {
+					root.loading_state = false;
+					let response = Math.random() < 0.5;
+					if (response) {
+						root.$toast.success("Berhasil menambahkan data", {
+							position: "top-right",
+							onClose: function () {
+								console.log("Pesan tertutup");
+							},
+						});
+					} else {
+						root.$toast.error(
+							"Gagal menambahkan data, coba beberapa saat lagi",
+							{
+								position: "top-right",
+								onClose: function () {
+									console.log("Pesan tertutup");
+								},
+							}
+						);
+					}
 					console.log(request);
 				}, delayInMilliseconds);
 			}
@@ -232,7 +266,7 @@ export default {
 				return this.kk_capture.length != 0;
 			},
 		},
-		umur: { required },
+		umur: { required, minValue: minValue(24) },
 		jenis_kelamin: { required },
 		alamat: { required },
 		rt: { required },

@@ -1,12 +1,5 @@
 <template>
-	<div id="app" class="bg-gray-100 min-h-full h-full">
-		<div id="nav">
-			<router-link to="/">Form</router-link> |
-			<router-link to="/about">About</router-link>
-		</div>
+	<div id="app" class="bg-gray-100 min-h-full xl:p-6 lg:p-6 md:p-6 ">
 		<router-view />
 	</div>
 </template>
-
-<style lang="scss">
-</style>

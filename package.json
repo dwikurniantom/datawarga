@@ -14,6 +14,8 @@
     "vue": "^2.6.11",
     "vue-currency-input": "^1.22.6",
     "vue-router": "^3.2.0",
+    "vue-spinner": "^1.0.4",
+    "vue-toastification": "^1.7.11",
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
