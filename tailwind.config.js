@@ -19,7 +19,10 @@ module.exports = {
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      opacity: ['disabled'],
+      translate: ['motion-safe'],
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

@@ -13,7 +13,8 @@
     "formvuelar": "^1.6.8",
     "vue": "^2.6.11",
     "vue-currency-input": "^1.22.6",
-    "vue-router": "^3.2.0"
+    "vue-router": "^3.2.0",
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss7-compat": "^2.0.4",
